@@ -37,6 +37,9 @@ export default function ColorInput() {
         value={contrastTextValue}
         onChange={(event) => setContrastTextValue(event.target.value)}
       ></input>
+      {/* {if(colors.length === 0){
+        <p>No colors.. start by adding one!</p>
+      }} */}
     </>
   );
 }
