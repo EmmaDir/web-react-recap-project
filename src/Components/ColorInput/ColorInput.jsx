@@ -2,17 +2,24 @@ import { useState } from "react";
 import "./ColorInput.css";
 
 export default function ColorInput() {
-  const [hexValue, setHexValue] = useState("");
-  const [contrastTextValue, setContrastTextValue] = useState("");
+  const [hexValue, setHexValue] = useState("#123456");
+  const [contrastTextValue, setContrastTextValue] = useState("#ffffff");
 
   return (
     <>
       <label htmlFor="hex">Hex</label>
-      <input id="hex" name="hex" type="text" value={hexValue} readOnly></input>
+      <input
+        id="hex"
+        name="hex"
+        type="text"
+        value={hexValue}
+        onChange={(event) => setHexValue(event.target.value)}
+      ></input>
       <input
         id="hexColor"
         name="hexColor"
         type="color"
+        value={hexValue}
         onChange={(event) => setHexValue(event.target.value)}
       ></input>
       <label htmlFor="contrastText">Contrast Text</label>
@@ -21,12 +28,13 @@ export default function ColorInput() {
         name="contrastText"
         type="text"
         value={contrastTextValue}
-        readOnly
+        onChange={(event) => setContrastTextValue(event.target.value)}
       ></input>
       <input
         id="contrastTextColor"
         name="contrastTextColor"
         type="color"
+        value={contrastTextValue}
         onChange={(event) => setContrastTextValue(event.target.value)}
       ></input>
     </>
