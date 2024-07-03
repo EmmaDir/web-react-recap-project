@@ -1,17 +1,16 @@
 import ColorInput from "../ColorInput/ColorInput";
 import "./ColorForm.css";
-import { uid } from "uid";
 
-export default function ColorForm({ onAddColor }) {
+export default function ColorForm({ buttonText, onSubmitColor }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newColor = {
-      id: uid(),
       role: event.target.role.value,
       hex: event.target.hex.value,
       contrastText: event.target.contrastText.value,
     };
-    onAddColor(newColor);
+    onSubmitColor(newColor);
+    event.target.reset();
   };
 
   return (
@@ -19,7 +18,7 @@ export default function ColorForm({ onAddColor }) {
       <label htmlFor="role">Role</label>
       <input id="role" name="role" type="text" placeholder="some color"></input>
       <ColorInput />
-      <button type="submit">ADD COLOR</button>
+      <button type="submit">{buttonText}</button>
     </form>
   );
 }
