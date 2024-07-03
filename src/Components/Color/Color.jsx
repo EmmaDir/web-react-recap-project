@@ -1,8 +1,15 @@
 import { useState } from "react";
 import "./Color.css";
+import ColorForm from "../ColorForm/ColorForm";
 
-export default function Color({ color, onConfirmDelete }) {
+export default function Color({
+  color,
+  onConfirmDelete,
+  onConfirmEdit,
+  actionType,
+}) {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [editColor, setEditColor] = useState(false);
 
   const handleDeleteClick = () => {
     setShowConfirmation(true);
@@ -10,6 +17,15 @@ export default function Color({ color, onConfirmDelete }) {
 
   const handleCancelClick = () => {
     setShowConfirmation(false);
+  };
+
+  const handleEditClick = () => {
+    console.log(color.id);
+    setEditColor(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditColor(false);
   };
 
   return (
@@ -33,6 +49,23 @@ export default function Color({ color, onConfirmDelete }) {
           <button onClick={handleCancelClick}>CANCEL</button>
           <button onClick={() => onConfirmDelete(color.id)}>DELETE</button>
         </div>
+      )}
+      {!editColor ? (
+        <button onClick={handleEditClick}>EDIT</button>
+      ) : (
+        <>
+          <ColorForm
+            buttonText={"UPDATE COLOR"}
+            // onSubmit={() => onConfirmEdit(color.id)}
+            onSubmitColor={(updatedColor) =>
+              // console.log(updatedColor)
+              onConfirmEdit(color.id, updatedColor)
+            }
+            // onSubmit={handleConfirmEdit}
+            actionType={actionType}
+          />
+          <button onClick={handleCancelEdit}>CANCEL</button>
+        </>
       )}
     </div>
   );
