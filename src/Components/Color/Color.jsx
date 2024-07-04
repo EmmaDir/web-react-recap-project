@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Color.css";
 import ColorForm from "../ColorForm/ColorForm";
+import CopyToClipboard from "../CopyToClipboard/CopyToClipboard";
 
-export default function Color({ color, onConfirmDelete, onConfirmEdit }) {
+export default function Color({
+  color,
+  onConfirmDelete,
+  onConfirmEdit,
+  // buttonText,
+}) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [editColor, setEditColor] = useState(false);
+  const [textCopyButton, setTextCopyButton] = useState("COPY");
 
   const handleDeleteClick = () => {
     setShowConfirmation(true);
@@ -23,6 +30,21 @@ export default function Color({ color, onConfirmDelete, onConfirmEdit }) {
     setEditColor(false);
   };
 
+  useEffect(() => {
+    if (textCopyButton === "SUCCESSFULLY COPIED!") {
+      const timeout = setTimeout(() => {
+        setTextCopyButton("COPY");
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [textCopyButton]);
+
+  async function handleCopyClick(text) {
+    await navigator.clipboard.writeText(text);
+    setTextCopyButton("SUCCESSFULLY COPIED!");
+  }
+
   return (
     <div
       className="color-card"
@@ -32,6 +54,11 @@ export default function Color({ color, onConfirmDelete, onConfirmEdit }) {
       }}
     >
       <h3 className="color-card-headline">{color.hex}</h3>
+      <CopyToClipboard
+        onCopyClick={handleCopyClick}
+        color={color}
+        textCopyButton={textCopyButton}
+      />
       <h4>{color.role}</h4>
       <p>contrast: {color.contrastText}</p>
       {!showConfirmation ? (
